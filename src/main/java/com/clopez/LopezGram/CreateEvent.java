@@ -1,7 +1,6 @@
 package com.clopez.LopezGram;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -23,17 +22,21 @@ public class CreateEvent extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		Date d = new Date();
 		Gson gson = new Gson();
 		HashMap<String, String> mapa = new HashMap<>();
 		String mail = request.getParameter("mail");
 		String token = request.getParameter("token");
+		String text = request.getParameter("text");
+		String picture = request.getParameter("picture");
+		Event event;
+		
 		if (!DataStore.validToken(mail, token)) {
 			System.out.println("Invalid User");
 			mapa.put("status", "Invalid User");
 		} else { //Let's do the task
-			
+			event = new Event(mail, text, picture);
+			DataStore.SaveEvent(event);
+			mapa.put("status", "Event saved");
 		}
 		
 		response.setContentType("application/json");

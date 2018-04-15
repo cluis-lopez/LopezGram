@@ -92,4 +92,15 @@ public class DataStore {
 		
 		return "INVALID";
 	}
+	
+	public static void SaveEvent(Event e) {
+		Entity ent = new Entity("Event", e.id);
+		ent.setProperty("Creator", e.creator);
+		ent.setProperty("CreateOn", e.createOn);
+		ent.setProperty("Text", e.text);
+		ent.setProperty("Pictures", e.picture);
+		ent.setProperty("Likes", e.likes);
+		ent.setProperty("Comments", e.comments);
+		ds.put(ent);
+	}
 }
