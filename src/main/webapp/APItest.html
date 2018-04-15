@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="TokenTest">
+		<form action="/TokenCheck" method="post">
+		<input id="tokentestButton" type="submit" value="TokenTest">
+		Mail: <input type="text" name="mail">
+		Token: <input type="text" name="token">
+		</form>
+	</div>
+	<br><br>
+	<div id="CreteUser">
+		<form action="/CreateUser" method="post">
+			<input id="createuserButton" type="submit" value="Create User">
+			Mail: <input type="text" name="mail">
+			UserName: <input type="text" name="username">
+			Password: <input type="text" name="password">
+		</form>
+	</div>
+		<br><br>
+	<div id="LoginUser">
+		<form action="/LoginUser" method="post">
+			<input id="loginuserButton" type="submit" value="Login User">
+			Mail: <input type="text" name="mail">
+			Password: <input type="text" name="password">
+		</form>
+	</div>
+
+</body>
+</html>
