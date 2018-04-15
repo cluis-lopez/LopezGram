@@ -80,7 +80,7 @@ public class DataStore {
 				UUID uuid = UUID.randomUUID();
 				Date d = new Date();
 				long t = d.getTime();
-				t = t + 24 * 60 * 60 * 1000; // tiempode validez: 1 día
+				t = t + 24 * 60 * 60 * 1000; // tiempo de validez: 1 día
 				Date valid = new Date(t);
 				e.setProperty("Token", uuid.toString());
 				e.setProperty("TokenValidUpTo", valid);
