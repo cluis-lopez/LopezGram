@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+	
    // Check if WebApp LocalStorage is available
 	if (localStorage.getItem("mail") && localStorage.getItem("token")){
 		$("#user").html("User: " + localStorage.getItem("mail"));
@@ -18,6 +18,7 @@ $(document).ready(function(){
 				success: function (data,status,xhr){
 					if(data.mail == m && data.token ==t){ //Token is OK
 						alert("User is OK");
+						getEvents(m, t, 5);
 					} else { //User must login again
 						$(".login").css("display", "block");
 					}
@@ -25,6 +26,34 @@ $(document).ready(function(){
 			});
 	};
 		
+	function getEvents(m , t, ne){
+		$.ajax({
+			url: "/GetEvent",
+			type: "POST",
+			data: {mail:m, token:t, events:ne},
+			dataType: "json",
+			success: function (data, status, xhr){
+				if (data.status != "UNAUTHORIZED"){
+					for (i=0; i<data.NumberOfEvents; i++){
+						loadEvent(data.event[i]);
+					};
+				}
+			},
+			error: function(xhr, status, message){
+				console.log("Cannot load events");
+			}
+		});
+	};
+	
+	function loadEvent(event){
+		html = '<div class="eventcontainer" id="'+ event.id +'">';
+		html = html + '<div class="autorevent">' + event.user + '</div>'
+		html = html + '<div class="pictureevent"><a href="' + event.picture + '"></div>';
+		html = html + '<div class="textevent">' + event.text + '</div>'
+		html = html + '<div class="footerevent"></div></div>';
+		$("#megacontainer").append(html);
+	};
+	
 	$("#loginbutton").click(function(){
 		m = $("#mail").val();
 		p = $("#password").val();

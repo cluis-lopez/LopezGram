@@ -100,6 +100,7 @@ public class DataStore {
 		ent.setProperty("Text", e.text);
 		ent.setProperty("Pictures", e.picture);
 		ent.setProperty("Likes", e.likes);
+		ent.setProperty("Hates", e.hates);
 		ent.setProperty("Comments", e.comments);
 		ds.put(ent);
 	}

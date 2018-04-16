@@ -19,6 +19,37 @@
 	text-align: left;
 }
 
+#megacontainer {
+	background-color: white;
+	overflow-x: hidden;
+    overflow-y: scroll;
+}
+.eventcontainer {
+	background-color: white;
+	padding-top: 5px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.autorevent {
+	margin: 5px;
+	text-align: left;
+	font-family: Arial;
+	font-size: 50%;
+}
+
+.pictureevent {
+	width: 80%;
+	border: 1px, solid, black;
+}
+
+.textevent {
+	width: 90%;
+	border: 1px, solid, black;
+	fort-family: Arial;
+	font-size: 80%
+}
+
 input[type="text"] {
     width: 100%;
     padding: 12px 20px;
