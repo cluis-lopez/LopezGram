@@ -6,11 +6,9 @@ import java.security.SecureRandom;
 
 public class Encrypt {
 
-	public static String HashPasswd (String plainpasswd) throws NoSuchAlgorithmException {
-        byte[] salt = getSalt();
-         
-        String securePassword = get_SHA_256_SecurePassword(plainpasswd, salt);
-        return securePassword;
+	public static String HashPasswd (String plainPasswd) throws NoSuchAlgorithmException {
+		byte[] salt = getSalt();
+        return get_SHA_256_SecurePassword(plainPasswd, salt);
 	}
 	
 	private static String get_SHA_256_SecurePassword(String passwordToHash, byte[] salt) {
