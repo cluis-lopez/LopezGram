@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 public class DataStore {
 
@@ -103,5 +104,25 @@ public class DataStore {
 		ent.setProperty("Hates", e.hates);
 		ent.setProperty("Comments", e.comments);
 		ds.put(ent);
+	}
+	
+	public static Event[] GetEvents(int numevents) {
+		Query q = new Query("Event").setKeysOnly();
+		q.addSort("CreateOn", SortDirection.DESCENDING);
+		List<Entity> ents = ds.prepare(q).asList(FetchOptions.Builder.withLimit(numevents));
+		
+		Event[] evs = new Event[ents.size()];
+		
+		for (int i=0; i<ents.size(); i++) {
+			Entity e = ents.get(i);
+			evs[i].id = e.getKey().getName();
+			evs[i].createOn = e.getProperty("CreateOn");
+			evs[i].creator = e.getProperty("Creator");
+			evs[i].text = e.getProperty("Text");
+			evs[i].picture = e.getProperty("Pictures");
+			
+		}
+		
+		return evs;
 	}
 }

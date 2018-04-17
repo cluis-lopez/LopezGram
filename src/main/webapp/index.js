@@ -30,7 +30,7 @@ $(document).ready(function(){
 		$.ajax({
 			url: "/GetEvent",
 			type: "POST",
-			data: {mail:m, token:t, events:ne},
+			data: {mail:m, token:t, numevents:ne},
 			dataType: "json",
 			success: function (data, status, xhr){
 				if (data.status != "UNAUTHORIZED"){
