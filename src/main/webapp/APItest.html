@@ -34,11 +34,20 @@
 		<form action="/CreateEvent" method="post">
 			<input id="EventButton" type="submit" value="Create Event">
 			Mail: <input type="text" name="mail">
+			User: <input type="text" name="name">
 			Token: <input type="text" name="token">
 			Text: <input type="text" name="text">
 			Picture <input type="text" name="picture">
 		</form>
 	</div>
-
+		<br><br>
+	<div id="GetEvents">
+		<form action="/GetEvent" method="post">
+			<input id="EventButton" type="submit" value="Get Events">
+			Mail: <input type="text" name="mail">
+			Token: <input type="text" name="token">
+			Numero: <input type="text" name="numvenets">
+		</form>
+	</div>
 </body>
 </html>

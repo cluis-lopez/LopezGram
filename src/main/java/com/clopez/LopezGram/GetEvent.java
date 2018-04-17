@@ -2,6 +2,7 @@ package com.clopez.LopezGram;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,36 +13,30 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class CreateEvent
+ * Servlet implementation class GetEvent
  */
-@WebServlet("/CreateEvent")
-public class CreateEvent extends HttpServlet {
+@WebServlet("/GetEvent")
+public class GetEvent extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Gson gson = new Gson();
-		HashMap<String, String> mapa = new HashMap<>();
+		// TODO Auto-generated method stub
 		String mail = request.getParameter("mail");
 		String token = request.getParameter("token");
-		String name = request.getParameter("name");
-		String text = request.getParameter("text");
-		String picture = request.getParameter("picture");
-		Event event;
+		int numevents = Integer.parseInt(request.getParameter("numevents"));
+		Map<String, Object> mapa = new HashMap<>();
+		Gson gson = new Gson();
 		
 		if (!DataStore.validToken(mail, token)) {
-			System.out.println("Invalid User");
-			mapa.put("status", "Invalid User");
-		} else { //Let's do the task
-			event = new Event();
-			event.creator = mail;
-			event.name = name;
-			event.text = text;
-			event.picture.add(0, picture);
-			DataStore.SaveEvent(event);
-			mapa.put("status", "Event Saved");
+			mapa.put("status", "UNAUTHORIZED");
+		} else { // Do the job
+			mapa.put("status", "OK");
+			Event[] evs = DataStore.GetEvents(numevents);
+			mapa.put("NumberOfEvents", evs.length);
+			mapa.put("Events", evs);
 		}
 		
 		response.setContentType("application/json");

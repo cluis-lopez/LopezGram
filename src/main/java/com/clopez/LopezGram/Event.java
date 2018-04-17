@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public class Event {
 	public String creator;
+	public String name;
 	public String  id;
 	public Date createOn;
 	public String text;
@@ -16,13 +17,13 @@ public class Event {
 	public List<String> hates;
 	public List<String> comments;
 	
-	public Event(String user, String text, String picture) {
-		creator = user;
+	public Event() {
+		creator = "";
+		name = "";
 		createOn = new Date();
 		id = (UUID.randomUUID()).toString();
-		this.text = text;
-		this.picture = new ArrayList<>();
-		this.picture.add(picture);
+		text="";
+		picture = new ArrayList<>();
 		likes = new ArrayList<>();
 		hates = new ArrayList<>();
 		comments = new ArrayList<>();

@@ -2,6 +2,7 @@ package com.clopez.LopezGram;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -9,6 +10,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -60,10 +62,12 @@ public class DataStore {
 		
 		Entity e = new Entity("User", mail);
 		Date d = new Date();
+		Date old = new Date(0);
 		e.setProperty("Name", name);
 		e.setProperty("Password", password);
 		e.setProperty("UserSince", d);
 		e.setProperty("LastLogin", null);
+		e.setProperty("TokenValidUpTo", old);
 		ds.put(e);
 		
 		return mail;
@@ -97,6 +101,7 @@ public class DataStore {
 	public static void SaveEvent(Event e) {
 		Entity ent = new Entity("Event", e.id);
 		ent.setProperty("Creator", e.creator);
+		ent.setProperty("User", e.name);
 		ent.setProperty("CreateOn", e.createOn);
 		ent.setProperty("Text", e.text);
 		ent.setProperty("Pictures", e.picture);
@@ -107,20 +112,30 @@ public class DataStore {
 	}
 	
 	public static Event[] GetEvents(int numevents) {
-		Query q = new Query("Event").setKeysOnly();
+		Query q = new Query("Event");
 		q.addSort("CreateOn", SortDirection.DESCENDING);
 		List<Entity> ents = ds.prepare(q).asList(FetchOptions.Builder.withLimit(numevents));
 		
 		Event[] evs = new Event[ents.size()];
 		
+		System.out.println("Numero de eventos: " + numevents);
+		System.out.println("Numero de entodades encontradas: " + ents.size());
+		
 		for (int i=0; i<ents.size(); i++) {
-			Entity e = ents.get(i);
-			evs[i].id = e.getKey().getName();
-			evs[i].createOn = e.getProperty("CreateOn");
-			evs[i].creator = e.getProperty("Creator");
-			evs[i].text = e.getProperty("Text");
-			evs[i].picture = e.getProperty("Pictures");
-			
+			Entity e;
+			try {
+				e = ds.get((ents.get(i)).getKey());
+				evs[i] = new Event();
+				evs[i].id = (String) e.getKey().getName();
+				evs[i].createOn = (Date) e.getProperty("CreateOn");
+				evs[i].creator = (String) e.getProperty("Creator");
+				evs[i].name = (String) e.getProperty("User");
+				evs[i].text = (String) e.getProperty("Text");
+				evs[i].picture = (ArrayList<String>) e.getProperty("Pictures");
+				//TODO faltan los Likes, Hates, etc.
+			} catch (EntityNotFoundException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		return evs;

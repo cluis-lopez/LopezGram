@@ -35,7 +35,7 @@ $(document).ready(function(){
 			success: function (data, status, xhr){
 				if (data.status != "UNAUTHORIZED"){
 					for (i=0; i<data.NumberOfEvents; i++){
-						loadEvent(data.event[i]);
+						loadEvent(data.Events[i]);
 					};
 				}
 			},
@@ -46,9 +46,10 @@ $(document).ready(function(){
 	};
 	
 	function loadEvent(event){
+		console.log(event);
 		html = '<div class="eventcontainer" id="'+ event.id +'">';
-		html = html + '<div class="autorevent">' + event.user + '</div>'
-		html = html + '<div class="pictureevent"><a href="' + event.picture + '"></div>';
+		html = html + '<div class="autorevent">' + event.name + '</div>'
+		html = html + '<div class="pictureevent"><img src="' + event.picture + '"></div>';
 		html = html + '<div class="textevent">' + event.text + '</div>'
 		html = html + '<div class="footerevent"></div></div>';
 		$("#megacontainer").append(html);
