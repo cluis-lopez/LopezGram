@@ -1,4 +1,4 @@
-package com.clopez.LopezGram;
+package com.clopez.lopezgram;
 
 import java.io.IOException;
 import java.util.HashMap;

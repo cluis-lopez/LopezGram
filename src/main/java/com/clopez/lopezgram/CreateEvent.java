@@ -1,4 +1,4 @@
-package com.clopez.LopezGram;
+package com.clopez.lopezgram;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,36 +12,36 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class LoginUser
+ * Servlet implementation class CreateEvent
  */
-@WebServlet("/LoginUser")
-public class LoginUser extends HttpServlet {
+@WebServlet("/CreateEvent")
+public class CreateEvent extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String mail = request.getParameter("mail");
-		String passwd = request.getParameter("password");
 		Gson gson = new Gson();
-		HashMap<String, String> mapa = new HashMap<String, String>();
+		HashMap<String, String> mapa = new HashMap<>();
+		String mail = request.getParameter("mail");
+		String token = request.getParameter("token");
+		String name = request.getParameter("name");
+		String text = request.getParameter("text");
+		String picture = request.getParameter("picture");
+		Event event;
 		
-		System.out.println("Mail: "+mail+"   Password: "+passwd);
-		
-		if (mail != null && passwd != null) {
-			String result = DataStore.loginUser(mail, passwd);
-			if (result.equals("INVALID")) {
-				mapa.put("mail", mail);
-				mapa.put("token", "INVALID");
-			} else {
-				mapa.put("mail", mail);
-				mapa.put("token", result);
-			}
-		} else {
-			mapa.put("mail", "INVALID");
-			mapa.put("token", "INVALID");
+		if (!DataStore.validToken(mail, token)) {
+			System.out.println("Invalid User");
+			mapa.put("status", "Invalid User");
+		} else { //Let's do the task
+			event = new Event();
+			event.creator = mail;
+			event.name = name;
+			event.text = text;
+			event.picture.add(0, picture);
+			DataStore.SaveEvent(event);
+			mapa.put("status", "Event Saved");
 		}
 		
 		response.setContentType("application/json");
@@ -49,7 +49,7 @@ public class LoginUser extends HttpServlet {
 		response.setHeader("cache-control", "no-cache");
 		response.getWriter().write(gson.toJson(mapa));
 		response.flushBuffer();
-		System.out.println(gson.toJson(mapa));
+		
 	}
 
 }

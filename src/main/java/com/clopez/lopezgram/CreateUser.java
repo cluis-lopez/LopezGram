@@ -1,9 +1,6 @@
-package com.clopez.LopezGram;
+package com.clopez.lopezgram;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,38 +10,36 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class GetEvent
+ * Servlet implementation class CreateUser
  */
-@WebServlet("/GetEvent")
-public class GetEvent extends HttpServlet {
+@WebServlet("/CreateUser")
+public class CreateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String name = request.getParameter("username");
+		String pass = request.getParameter("password");
 		String mail = request.getParameter("mail");
-		String token = request.getParameter("token");
-		int numevents = Integer.parseInt(request.getParameter("numevents"));
-		Map<String, Object> mapa = new HashMap<>();
 		Gson gson = new Gson();
+		String result;
 		
-		if (!DataStore.validToken(mail, token)) {
-			mapa.put("status", "UNAUTHORIZED");
-		} else { // Do the job
-			mapa.put("status", "OK");
-			Event[] evs = DataStore.GetEvents(numevents);
-			mapa.put("NumberOfEvents", evs.length);
-			mapa.put("Events", evs);
+		if ((DataStore.createUser(mail, name, pass)).equals(mail)){
+			result = mail; // Success creating the user
+		} else {
+			result = "INVALID";
 		}
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader("cache-control", "no-cache");
-		response.getWriter().write(gson.toJson(mapa));
+		String json = gson.toJson("{'result' : " + result + "}");
+		response.getWriter().write(json);
 		response.flushBuffer();
-		
 	}
 
 }

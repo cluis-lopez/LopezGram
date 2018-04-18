@@ -1,4 +1,4 @@
-package com.clopez.LopezGram;
+package com.clopez.lopezgram;
 
 import java.util.ArrayList;
 import java.util.Date;
