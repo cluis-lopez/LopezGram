@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	
+	var loc_lat;
+	var loc_long;
+	
    // Check if WebApp LocalStorage is available
 	if (localStorage.getItem("mail") && localStorage.getItem("token")){
 		$("#user").html("User: " + localStorage.getItem("mail"));
@@ -20,7 +23,7 @@ $(document).ready(function(){
 						alert("User is OK");
 						getEvents(m, t, 5);
 					} else { //User must login again
-						$(".login").css("display", "block");
+						$(".modallogin").css("display", "block");
 					}
 				}
 			});
@@ -108,4 +111,17 @@ $(document).ready(function(){
             $('#loginbutton').css('cursor', 'not-allowed');
         }
     });
+	
+	$("#location").click(function(){
+		navigator.geolocation.getCurrentPosition(p);
+		function p(pos){
+			loc_lat = pos.coords.latitude;
+			loc_long = pos.coords.longitude; 
+			alert("Latitud: "+loc_lat+"   Longitud: "+loc_long);
+		};
+	});
+	
+	$('#camera').click(function(){
+		$('#inputpicture').css('display', 'block');
+	});
 });
