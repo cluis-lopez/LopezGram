@@ -54,7 +54,7 @@ public class UploadEvent extends HttpServlet {
 				if (item.isFormField()) {
 					String name = item.getFieldName();
 				    String value = item.getName();
-				    mapa.put(name,  value);
+				    mapa.put(name, value);
 				} else {
 					InputStream stream = item.openStream();
 					String name = item.getName();
