@@ -112,16 +112,17 @@ $(document).ready(function(){
         }
     });
 	
-	$("#location").click(function(){
+	$("#eventform").on('click', '#location', (function(){
 		navigator.geolocation.getCurrentPosition(p);
 		function p(pos){
 			loc_lat = pos.coords.latitude;
 			loc_long = pos.coords.longitude; 
 			alert("Latitud: "+loc_lat+"   Longitud: "+loc_long);
 		};
-	});
+	}));
 	
 	$('#camera').click(function(){
+		alert("CAMERA");
 		$('#inputpicture').css('display', 'block');
 	});
 });

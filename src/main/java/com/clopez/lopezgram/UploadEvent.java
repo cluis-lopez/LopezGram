@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +41,8 @@ public class UploadEvent extends HttpServlet {
 
 		// For multipart support
 		ServletFileUpload upload = new ServletFileUpload();
+		
+		Map<String, String> mapa = new HashMap<>();
 
 		// Trying to create file
 		try {
@@ -47,13 +51,18 @@ public class UploadEvent extends HttpServlet {
 
 			while (iterator.hasNext()) {
 				FileItemStream item = iterator.next();
-				InputStream stream = item.openStream();
-				String name = item.getName();
-				String bucket = item.getFieldName();
-				GcsFilename filename = new GcsFilename(bucket, name);
-				GcsOutputChannel writeChannel = gcsService.createOrReplace(filename, options);
-				
-				byte[] bytes = ByteStreams.toByteArray(stream);
+				if (item.isFormField()) {
+					String name = item.getFieldName();
+				    String value = item.getName();
+				    mapa.put(name,  value);
+				} else {
+					InputStream stream = item.openStream();
+					String name = item.getName();
+					String bucket = item.getFieldName();
+					GcsFilename filename = new GcsFilename(bucket, name);
+					GcsOutputChannel writeChannel = gcsService.createOrReplace(filename, options);
+					byte[] bytes = ByteStreams.toByteArray(stream);
+				}
 
 				try {
 					// Write data from photo
