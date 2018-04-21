@@ -35,7 +35,6 @@ public class UploadEvent extends HttpServlet {
 		// For multipart support
 		
 		ServletFileUpload upload = new ServletFileUpload();
-		// DefaultStorageProvider.setInstance(new MemoryStorageProvider());
 
 		String filename = "", bucket = "", ret = "";
 		byte[] bytes = new byte[0];
@@ -44,8 +43,6 @@ public class UploadEvent extends HttpServlet {
 		try {
 
 			FileItemIterator iterator = upload.getItemIterator(req);
-			//List<FileItem> items = upload.parseRequest(req);
-			//Iterator<FileItem> iterator = items.iterator();
 			
 			while (iterator.hasNext()) {
 				FileItemStream item = iterator.next();

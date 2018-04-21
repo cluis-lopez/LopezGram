@@ -18,7 +18,15 @@
 	font-family: Arial;
 	font-style: italic;
 	font-size: 1em;
-	text-align: left;
+	margin-left: 5%;
+}
+
+#publicar {
+	display: inline;
+	font-family: Arial;
+	font-style: italic;
+	font-size: 1em;
+	margin-left: 45%;
 }
 
 #megacontainer {

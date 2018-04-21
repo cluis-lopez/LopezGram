@@ -19,8 +19,9 @@ public class Foto {
 		this.bucket = bucket;
 		this.bytes = bytes;
 	}
-
+	
 	public boolean upload() {
+		System.out.println("Tamaño foto: " + bytes.length);
 		GcsService gcsService = GcsServiceFactory.createGcsService();
 		GcsFileOptions options = new GcsFileOptions.Builder().mimeType("image/jpg").acl("public-read").build();
 		GcsFilename filename = new GcsFilename(bucket, name);
