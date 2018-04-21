@@ -1,0 +1,69 @@
+.header {
+	position: fixed;
+	top: 0;
+    right: 0;
+	background-color: tomato;
+	height: 100px;
+	width: 100%;
+}
+
+.title {
+	font-family: Arial;
+	font-style: italic;
+	font-size: 2em;
+	text-align: center;
+}
+
+#user {
+	font-family: Arial;
+	font-style: italic;
+	font-size: 1em;
+	margin-left: 5%;
+}
+
+#publicar {
+	display: inline;
+	font-family: Arial;
+	font-style: italic;
+	font-size: 1em;
+	margin-left: 45%;
+}
+
+#megacontainer {
+	padding-top: 100px;
+	background-color: white;
+	overflow-x: hidden;
+    overflow-y: scroll;
+}
+.eventcontainer {
+	background-color: white;
+	padding-top: 5px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.autorevent {
+	margin: 5px;
+	text-align: left;
+	font-family: Arial;
+	font-size: 100%;
+}
+
+.pictureevent {
+	margin: auto;
+	width: 80%;
+	border: 1px, solid, black;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.customHr {
+    width: 95%;
+    color: rgba(0, 0, 0, 0);
+    line-height: 2px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
