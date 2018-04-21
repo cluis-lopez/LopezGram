@@ -9,7 +9,7 @@ $(document).ready(function(){
 		tokenCheck(localStorage.getItem("mail"), localStorage.getItem("token"));
 	} else {
 		$("#user").html("User: No Valid User");
-		$(".login").css("display", "block");
+		$(".modallogin").css("display", "block");
 	};
 	
 	function tokenCheck(m, t) {
