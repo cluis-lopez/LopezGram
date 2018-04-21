@@ -73,15 +73,18 @@ public class DataStore {
 		return mail;
 	}
 	
-	public static String loginUser(String mail, String passwd) {
+	public static String[] loginUser(String mail, String passwd) {
 		Key k = KeyFactory.createKey("User", mail);
 		Filter propertyFilter = new FilterPredicate("__key__", FilterOperator.EQUAL, k);
 		Query q = new Query("User").setFilter(propertyFilter);
 		List<Entity> ents = ds.prepare(q).asList(FetchOptions.Builder.withLimit(1));
 		
+		String[] ret = new String[2];
+		
 		if (ents.size() == 1) { // The user exists, then check the password
 			Entity e = ents.get(0);
 			if ((e.getProperty("Password").equals(passwd))){ // Las passwords coinciden !!
+				ret[1] = (String) e.getProperty("Name");
 				UUID uuid = UUID.randomUUID();
 				Date d = new Date();
 				long t = d.getTime();
@@ -91,11 +94,12 @@ public class DataStore {
 				e.setProperty("TokenValidUpTo", valid);
 				e.setProperty("LastLogin", d);
 				ds.put(e);
-				return uuid.toString();
+				ret[0] = uuid.toString();
+				return ret;
 			}
 		}
-		
-		return "INVALID";
+		ret[0] = ret[1] = "INVALID";
+		return ret;
 	}
 	
 	public static void SaveEvent(Event e) {

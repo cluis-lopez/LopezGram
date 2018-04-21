@@ -30,18 +30,23 @@ public class LoginUser extends HttpServlet {
 		
 		System.out.println("Mail: "+mail+"   Password: "+passwd);
 		
+		String[] res = new String[2];
+		
 		if (mail != null && passwd != null) {
-			String result = DataStore.loginUser(mail, passwd);
-			if (result.equals("INVALID")) {
+			res = DataStore.loginUser(mail, passwd);
+			if (res[0].equals("INVALID")) {
 				mapa.put("mail", mail);
 				mapa.put("token", "INVALID");
+				mapa.put("user", "INVALID");
 			} else {
 				mapa.put("mail", mail);
-				mapa.put("token", result);
+				mapa.put("token", res[0]);
+				mapa.put("user", res[1]);
 			}
 		} else {
 			mapa.put("mail", "INVALID");
 			mapa.put("token", "INVALID");
+			mapa.put("user", "INVALID");
 		}
 		
 		response.setContentType("application/json");

@@ -71,6 +71,7 @@ $(document).ready(function(){
 				if(data.mail == m && data.token != "INVALID"){ //Token is OK
 					localStorage.setItem("mail", data.mail);
 					localStorage.setItem("token", data.token);
+					localStorage.setItem("user", data.user);
 					alert("User is OK");
 				} else { //User must login again
 					alert("mail: "+data.mail +" ... token"+data.token);
@@ -121,13 +122,49 @@ $(document).ready(function(){
 		function p(pos){
 			loc_lat = pos.coords.latitude;
 			loc_long = pos.coords.longitude; 
-			alert("Latitud: "+loc_lat+"   Longitud: "+loc_long);
 		};
 	});
 	
 	$('#camera').click(function(){
-		alert("CAMERA");
 		$('#inputpicture').css('display', 'block');
 		$('#message').attr("rows","2");
+		$('#hiddeninput').click();
+		$('#hiddeninput').change(function(){
+			foto = $('#hiddeninput').val();
+			$('#hiddeninput').val("");
+			alert("Foto: "+foto);
+		});
+	});
+	
+	$("#publishbutton").click(function(){
+		m = localStore.getItem("mail");
+		t = localStore.getItem("token");
+		u = localStore.getItem("user");
+		fd = new FormData();
+		fd.append("mail", m);
+		fd.append("token", t);
+		fd.append("user", u);
+		fd.append("text", $("#message").val());
+		alert("Datos: "+fd);
+		
+		$.ajax({
+			url: "/UploadEvent",
+			type: "POST",
+			contentType: "multipart/form-data",
+			data: fd,
+			processData: false,
+			dataType: "text",
+			success: function (data,status,xhr){
+				console.log("data: "+data);
+				if(data == "UPLOADED") {
+					alert("Publicado");
+				} else { //User must login again
+					alert ("NO publicado")
+				}
+			},
+			error: function(xhr, status, message){
+				console.log(message);
+			}
+		});
 	});
 });
