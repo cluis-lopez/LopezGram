@@ -22,7 +22,7 @@ public class Foto {
 	
 	public boolean upload() {
 		if (name.equals("")) return false;
-		System.out.println("Tamaño foto: " + bytes.length);
+		System.out.println("Bucket: " + bucket + " nombre :" + name + " Tamaño foto: " + bytes.length);
 		GcsService gcsService = GcsServiceFactory.createGcsService();
 		GcsFileOptions options = new GcsFileOptions.Builder().mimeType("image/jpg").acl("public-read").build();
 		GcsFilename filename = new GcsFilename(bucket, name);

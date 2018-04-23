@@ -238,12 +238,12 @@ $(document).ready(function(){
 		fd.append("user", u);
 		fd.append("text", $("#message").val());
 		fd.append("foto", resizedImage);
-		alert("Datos: "+fd);
 		
 		$.ajax({
 			url: "/UploadEvent",
 			type: "POST",
-			contentType: "multipart/form-data",
+			encType: "multipart/form-data",
+			contentType: false,
 			data: fd,
 			processData: false,
 			dataType: "text",
@@ -251,8 +251,10 @@ $(document).ready(function(){
 				console.log("data: "+data);
 				if(data == "UPLOADED") {
 					alert("Publicado");
+					refresh();
 				} else { //User must login again
-					alert ("NO publicado")
+					alert ("NO publicado");
+					refresh();
 				}
 			},
 			error: function(xhr, status, message){
@@ -260,4 +262,15 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("#cancelbutton").click(refresh);
+	
+	function refresh(){
+		$("#message").val("");
+		$("#foto").attr("src","");
+		resizedImage = "";
+		camera_state = false;
+		$(".modalevent").css("display", "none");
+		getEvents(localStorage.getItem("mail"), localStorage.getItem("token"), 5);
+	};
 });
