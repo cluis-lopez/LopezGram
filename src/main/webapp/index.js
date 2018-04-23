@@ -3,6 +3,7 @@ $(document).ready(function(){
 	var loc_lat;
 	var loc_long;
 	var camera_state = false;
+	var resizedImage;
 	
    // Check if WebApp LocalStorage is available
 	if (localStorage.getItem("mail") && localStorage.getItem("token")){
@@ -29,7 +30,9 @@ $(document).ready(function(){
 				}
 			});
 	};
-		
+
+/*	Load and display the latest events
+ */	
 	function getEvents(m , t, ne){
 		$.ajax({
 			url: "/GetEvent",
@@ -58,6 +61,12 @@ $(document).ready(function(){
 		html = html + '<div class="footerevent"></div></div>';
 		$("#megacontainer").append(html);
 	};
+	
+/*	End of events section
+*/
+	
+/*	Login user section
+ */
 	
 	$("#loginbutton").click(function(){
 		m = $("#mail").val();
@@ -114,7 +123,8 @@ $(document).ready(function(){
         }
     });
 
-	/* Bloque para gestionar la creación de eventos*/
+/* Bloque para gestionar la creación de eventos
+ **/
  
 	$('.title').click(function(){
 		$('.modalevent').css('display', 'block');
@@ -137,6 +147,7 @@ $(document).ready(function(){
 		} else {
 			$('#inputpicture').css('display', 'none');
 			$('#foto').attr("src", "");
+			resizedImage = "";
 			$('#message').attr("rows","5");
 			camera_state = false;
 		}
@@ -152,8 +163,8 @@ $(document).ready(function(){
 			var reader = new FileReader();
 			reader.onload = (function(tf) {
 			      return function(evt) {
-			    	  // resize the image before using the resolved dataURL to set the thumbnail
-			    	  resize(evt.target.result, 1024, function(dataURL) {
+			    	  // resize the image before using the resolved dataURL
+			    	  resize(evt.target.result, 1024, 1024, function(dataURL) {
 			          $("#foto").attr("src", dataURL)
 			        });
 			      }
@@ -162,31 +173,71 @@ $(document).ready(function(){
 		};
 	};
 	
-	function resize(src, maxWidth, callback) {
+	function resize(src, maxWidth, maxHeight, callback) {
 	    var img = document.createElement('img');
 	    img.src = src;
 	    img.onload = () => {
 	      var oc = document.createElement('canvas');
 	      var ctx = oc.getContext('2d');
-	      // resize to [maxWidth] px
-	      var scale = maxWidth / img.width;
-	      oc.width = img.width * scale;
-	      oc.height = img.height * scale;
+	      // resize to maxWidth px (either width or height)
+	      width = img.width;
+	      height = img.height;
+	      if (width > height) {
+              if (width > maxWidth) {
+                  height *= maxWidth / width;
+                  width = maxWidth;
+              }
+          } else {
+              if (height > maxHeight) {
+                  width *= maxHeight / height;
+                  height = maxHeight;
+              }
+          }
+	      oc.width = width;
+	      oc.height = height;
 	      ctx.drawImage(img, 0, 0, oc.width, oc.height);
+	      resizedImage = dataURLToBlob(oc.toDataURL());
 	      // convert canvas back to dataurl
 	      callback(oc.toDataURL());
 	    }
 	}
 	
+	/* Utility function to convert a canvas to a BLOB */
+	var dataURLToBlob = function(dataURL) {
+	    var BASE64_MARKER = ';base64,';
+	    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+	        var parts = dataURL.split(',');
+	        var contentType = parts[0].split(':')[1];
+	        var raw = parts[1];
+
+	        return new Blob([raw], {type: contentType});
+	    }
+
+	    var parts = dataURL.split(BASE64_MARKER);
+	    var contentType = parts[0].split(':')[1];
+	    var raw = window.atob(parts[1]);
+	    var rawLength = raw.length;
+
+	    var uInt8Array = new Uint8Array(rawLength);
+
+	    for (var i = 0; i < rawLength; ++i) {
+	        uInt8Array[i] = raw.charCodeAt(i);
+	    }
+
+	    return new Blob([uInt8Array], {type: contentType});
+	}
+	/* End Utility function to convert a canvas to a BLOB      */
+	
 	$("#publishbutton").click(function(){
-		m = localStore.getItem("mail");
-		t = localStore.getItem("token");
-		u = localStore.getItem("user");
+		m = localStorage.getItem("mail");
+		t = localStorage.getItem("token");
+		u = localStorage.getItem("user");
 		fd = new FormData();
 		fd.append("mail", m);
 		fd.append("token", t);
 		fd.append("user", u);
 		fd.append("text", $("#message").val());
+		fd.append("foto", resizedImage);
 		alert("Datos: "+fd);
 		
 		$.ajax({

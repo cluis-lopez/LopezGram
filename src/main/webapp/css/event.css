@@ -52,7 +52,11 @@
 }
 
 #foto {
-	max-width: 500px;
+	width: 90%;
+/* 	max-width: 500px;
+	max-height: 500px; */
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 .formbutton {
