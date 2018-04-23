@@ -28,6 +28,7 @@
 
 #message {
     width: 100%;
+    padding-top: 20px;
     padding: 12px 20px;
     margin: 8px 0;
     display: block;
@@ -44,9 +45,14 @@
 }
 
 #inputfoto {
-	min-width: 500px;
-	min-height: 200px;
+	margin-left: 10%;
+	width: 80%;
+	margin-right: 10%;
 	/* border: 1px solid #ccc; */
+}
+
+#foto {
+	max-width: 500px;
 }
 
 .formbutton {

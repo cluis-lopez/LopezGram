@@ -2,6 +2,7 @@ $(document).ready(function(){
 	
 	var loc_lat;
 	var loc_long;
+	var camera_state = false;
 	
    // Check if WebApp LocalStorage is available
 	if (localStorage.getItem("mail") && localStorage.getItem("token")){
@@ -112,7 +113,9 @@ $(document).ready(function(){
             $('#loginbutton').css('cursor', 'not-allowed');
         }
     });
-	
+
+	/* Bloque para gestionar la creación de eventos*/
+ 
 	$('.title').click(function(){
 		$('.modalevent').css('display', 'block');
 	});
@@ -126,15 +129,54 @@ $(document).ready(function(){
 	});
 	
 	$('#camera').click(function(){
-		$('#inputpicture').css('display', 'block');
-		$('#message').attr("rows","2");
-		$('#hiddeninput').click();
-		$('#hiddeninput').change(function(){
-			foto = $('#hiddeninput').val();
-			$('#hiddeninput').val("");
-			alert("Foto: "+foto);
-		});
+		if (camera_state == false){
+			$('#inputpicture').css('display', 'block');
+			$('#message').attr("rows","2");
+			camera_state = true;
+			$('#hiddeninput').click();
+		} else {
+			$('#inputpicture').css('display', 'none');
+			$('#foto').attr("src", "");
+			$('#message').attr("rows","5");
+			camera_state = false;
+		}
 	});
+	
+	$('#hiddeninput').change(function(){
+		readURL(this);
+	});
+	
+	function readURL(input){
+		// var ctx = document.getElementById("foto").getContext("2d");
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = (function(tf) {
+			      return function(evt) {
+			    	  // resize the image before using the resolved dataURL to set the thumbnail
+			    	  resize(evt.target.result, 1024, function(dataURL) {
+			          $("#foto").attr("src", dataURL)
+			        });
+			      }
+			    })(input.files[0])
+			reader.readAsDataURL(input.files[0]);
+		};
+	};
+	
+	function resize(src, maxWidth, callback) {
+	    var img = document.createElement('img');
+	    img.src = src;
+	    img.onload = () => {
+	      var oc = document.createElement('canvas');
+	      var ctx = oc.getContext('2d');
+	      // resize to [maxWidth] px
+	      var scale = maxWidth / img.width;
+	      oc.width = img.width * scale;
+	      oc.height = img.height * scale;
+	      ctx.drawImage(img, 0, 0, oc.width, oc.height);
+	      // convert canvas back to dataurl
+	      callback(oc.toDataURL());
+	    }
+	}
 	
 	$("#publishbutton").click(function(){
 		m = localStore.getItem("mail");
