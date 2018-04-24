@@ -7,10 +7,10 @@ $(document).ready(function(){
 	
    // Check if WebApp LocalStorage is available
 	if (localStorage.getItem("mail") && localStorage.getItem("token")){
-		$("#user").html("User: " + localStorage.getItem("mail"));
+		$("#username").html("<b>User:</b> " + localStorage.getItem("mail"));
 		tokenCheck(localStorage.getItem("mail"), localStorage.getItem("token"));
 	} else {
-		$("#user").html("User: No Valid User");
+		$("#username").html("User: No Valid User");
 		$(".modallogin").css("display", "block");
 	};
 	
@@ -22,7 +22,6 @@ $(document).ready(function(){
 				dataType: "json",
 				success: function (data,status,xhr){
 					if(data.mail == m && data.token ==t){ //Token is OK
-						alert("User is OK");
 						getEvents(m, t, 5);
 					} else { //User must login again
 						$(".modallogin").css("display", "block");
@@ -62,6 +61,25 @@ $(document).ready(function(){
 		$("#megacontainer").append(html);
 	};
 	
+	$("#logoutbutton").click(function(){
+		localStorage.setItem("token", "");
+		localStorage.setItem("mail", "");
+		localStorage.setItem("name", "");
+		location.reload();
+	});
+	
+	// Cleanup the events area plus clean and close modals
+	
+	function refresh(){
+		$("#message").val("");
+		$("#foto").attr("src","");
+		resizedImage = "";
+		camera_state = false;
+		$(".modalevent").css("display", "none");
+		$("#megacontainer").empty();
+		getEvents(localStorage.getItem("mail"), localStorage.getItem("token"), 5);
+	};
+	
 /*	End of events section
 */
 	
@@ -82,7 +100,7 @@ $(document).ready(function(){
 					localStorage.setItem("mail", data.mail);
 					localStorage.setItem("token", data.token);
 					localStorage.setItem("user", data.user);
-					alert("User is OK");
+					location.reload();
 				} else { //User must login again
 					alert("mail: "+data.mail +" ... token"+data.token);
 					$(".login").css("display", "block");
@@ -106,11 +124,12 @@ $(document).ready(function(){
             }
         },
         messages: {
-        	password: "Your password must be five characters at least",
-        	mail: "Enter a valid email address: name@domain.com"
+        	password: "La password debe tener al menos 5 caracteres",
+        	mail: "Dirección de mail válida: name@domain.com"
         },
-        errorElement : 'div',
-        errorLabelContainer: '.errorTxt'
+        errorPlacement: function (error, element) {
+            element.attr("placeholder", error[0].outerText);
+        }
     });
 	
 	$('#loginform input').on('keyup blur', function () { // fires on every keyup & blur
@@ -126,7 +145,7 @@ $(document).ready(function(){
 /* Bloque para gestionar la creación de eventos
  **/
  
-	$('.title').click(function(){
+	$('#publicar').click(function(){
 		$('.modalevent').css('display', 'block');
 	});
 	
@@ -264,13 +283,4 @@ $(document).ready(function(){
 	});
 	
 	$("#cancelbutton").click(refresh);
-	
-	function refresh(){
-		$("#message").val("");
-		$("#foto").attr("src","");
-		resizedImage = "";
-		camera_state = false;
-		$(".modalevent").css("display", "none");
-		getEvents(localStorage.getItem("mail"), localStorage.getItem("token"), 5);
-	};
 });

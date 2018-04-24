@@ -43,19 +43,24 @@ input[type="password"] {
     font-size: 125%;
 }
 
-input[type=submit]:hover {
-    background-color: #45a049;
+#loginbutton{
+	padding: 12px 12px;
+	border-radius: 4px;
+	width: 20%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+	margin-left: 40%;
+	margin-right: 40%;
+    border: none;
+    border-radius: 4px;
+    cursor: not-allowed;
+    font-family: Arial;
+    font-size: 125%;
 }
 
 label{
 	font-family: Arial;
 	font-size:125%;
-}
-    
-.errorTxt{
-  font-family: Arial;
-  font-size: 110%;
-  color: red;
-  text-align: center;
-  min-height: 20px;
 }

@@ -1,32 +1,57 @@
 .header {
+	display: grid;
+	grid-template-columns: 25% 50% 25%;
 	position: fixed;
 	top: 0;
     right: 0;
 	background-color: tomato;
-	height: 100px;
 	width: 100%;
+	min-height: 150px;
 }
 
 .title {
-	font-family: Arial;
-	font-style: italic;
-	font-size: 2em;
+	display: grid;
+	grid-template-rows: 50% 50%;
+	padding: 20px;
+}
+
+.title div {
+	margin: auto;
 	text-align: center;
 }
 
 #user {
+	margin: auto;
+	text-align: center;
+}
+
+#user:hover {
+	cursor: pointer;
+}
+
+#logout {
+	margin: auto;
+	text-align: right;
+}
+
+#logout:hover {
+	cursor: pointer;
+}
+
+#username {
 	font-family: Arial;
 	font-style: italic;
 	font-size: 1em;
-	margin-left: 5%;
 }
 
 #publicar {
-	display: inline;
 	font-family: Arial;
 	font-style: italic;
 	font-size: 1em;
-	margin-left: 45%;
+}
+
+#publicar:hover {
+	cursor: pointer;
 }
 
 #megacontainer {

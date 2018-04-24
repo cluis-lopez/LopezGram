@@ -16,9 +16,16 @@
 </head>
 <body>
 	<div class="header">
-		<h1 class="title">LopezGram</h1>
-		<p id="user">User:</p>
-		<p id="publicar">¿En que estás pensando?</p>
+		<div id="user"><i class="icon icon-user-circle-o"></i><p id="username">User: </p></div>
+		<div class="title">
+			<div>
+				<img src="icons/Logo.png">
+			</div>
+			<div id="publicar">
+				Nuevo post
+			</div>
+		</div>
+		<div id="logout"><i class="icon icon-logout" id="logoutbutton"></i></div>
 	</div>
 	
 	<div id="megacontainer">
@@ -31,8 +38,7 @@
 				<input type="text" id="mail" name="mail">
 				<label for="password">Password</label>
 				<input type="password" id="password" name="password">
-				<div class="errorTxt"></div>
-				<input type="submit" id="loginbutton" value="Enviar" disabled="disabled">
+				<input type="button" id="loginbutton" value="Enviar" disabled="disabled">
 			</form>
 		</div>
 	</div>
