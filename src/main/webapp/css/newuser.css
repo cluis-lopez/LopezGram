@@ -1,4 +1,4 @@
-.modalprofile {
+.modalnewuser {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -12,13 +12,11 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.profilecontent {
+.newusercontent {
 	background-color: #f2f2f2;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     border-radius: 10px;
     width: 80%;
-    display: grid;
-    grid-template-rows: 60% 40%;
 }

@@ -125,7 +125,7 @@ $(document).ready(function(){
         },
         messages: {
         	password: "La password debe tener al menos 5 caracteres",
-        	mail: "Dirección de mail válida: name@domain.com"
+        	mail: "Direcci&oacute;n de mail v&aacute;lida: name@domain.com"
         },
         errorPlacement: function (error, element) {
             element.attr("placeholder", error[0].outerText);

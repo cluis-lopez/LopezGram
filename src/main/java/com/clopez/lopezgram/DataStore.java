@@ -2,6 +2,7 @@ package com.clopez.lopezgram;
 
 import java.util.Date;
 import java.util.List;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -63,8 +64,15 @@ public class DataStore {
 		Entity e = new Entity("User", mail);
 		Date d = new Date();
 		Date old = new Date(0);
+		String[] pass = new String[2];
+		try {
+			pass = Encrypt.HashPasswd(password);
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
 		e.setProperty("Name", name);
-		e.setProperty("Password", password);
+		e.setProperty("Password", pass[0]);
+		e.setProperty("Salt", pass[1]);
 		e.setProperty("UserSince", d);
 		e.setProperty("LastLogin", null);
 		e.setProperty("TokenValidUpTo", old);
@@ -80,10 +88,9 @@ public class DataStore {
 		List<Entity> ents = ds.prepare(q).asList(FetchOptions.Builder.withLimit(1));
 		
 		String[] ret = new String[2];
-		
 		if (ents.size() == 1) { // The user exists, then check the password
 			Entity e = ents.get(0);
-			if ((e.getProperty("Password").equals(passwd))){ // Las passwords coinciden !!
+			if (Encrypt.CheckPasswd(passwd, (String) e.getProperty("Password"), (String) e.getProperty("Salt"))){ // Las passwords coinciden !!
 				ret[1] = (String) e.getProperty("Name");
 				UUID uuid = UUID.randomUUID();
 				Date d = new Date();
