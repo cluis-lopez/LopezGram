@@ -23,16 +23,12 @@ public class Encrypt {
 	}
 	
 	public static boolean CheckPasswd(String givenPassword, String storedPassword, String salt) {
-		System.out.println("Password introducida: "+givenPassword);
-		System.out.println("Password almacenada: "+ storedPassword);
-		System.out.println("Sal :" + salt);
 		byte [] bytes = new byte[salt.length()/2];
 		for (int i = 0; i < salt.length(); i += 2) {
 	        bytes[i / 2] = (byte) ((Character.digit(salt.charAt(i), 16) << 4)
 	                             + Character.digit(salt.charAt(i+1), 16));
 	    }
 		String encryptPass = get_SHA_256_SecurePassword(givenPassword, bytes);
-		System.out.println("Nueva password encriptada :"+ encryptPass);
 		return (encryptPass.equals(storedPassword));
 	}
 	
