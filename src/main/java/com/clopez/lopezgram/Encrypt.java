@@ -4,11 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import org.apache.commons.codec.binary.Hex;
-
 public class Encrypt {
 
-	public static String[] HashPasswd (String plainPasswd) throws NoSuchAlgorithmException {
+	public static String[] hashPasswd (String plainPasswd) throws NoSuchAlgorithmException {
 		String[] ret = new String[2];
 		byte[] salt = getSalt();
         ret[0] = get_SHA_256_SecurePassword(plainPasswd, salt);
@@ -22,7 +20,7 @@ public class Encrypt {
         return ret;
 	}
 	
-	public static boolean CheckPasswd(String givenPassword, String storedPassword, String salt) {
+	public static boolean checkPasswd(String givenPassword, String storedPassword, String salt) {
 		byte [] bytes = new byte[salt.length()/2];
 		for (int i = 0; i < salt.length(); i += 2) {
 	        bytes[i / 2] = (byte) ((Character.digit(salt.charAt(i), 16) << 4)

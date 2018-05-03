@@ -66,7 +66,7 @@ public class DataStore {
 		Date old = new Date(0);
 		String[] pass = new String[2];
 		try {
-			pass = Encrypt.HashPasswd(password);
+			pass = Encrypt.hashPasswd(password);
 		} catch (NoSuchAlgorithmException e1) {
 			e1.printStackTrace();
 		}
@@ -90,7 +90,7 @@ public class DataStore {
 		String[] ret = new String[2];
 		if (ents.size() == 1) { // The user exists, then check the password
 			Entity e = ents.get(0);
-			if (Encrypt.CheckPasswd(passwd, (String) e.getProperty("Password"), (String) e.getProperty("Salt"))){ // Las passwords coinciden !!
+			if (Encrypt.checkPasswd(passwd, (String) e.getProperty("Password"), (String) e.getProperty("Salt"))){ // Las passwords coinciden !!
 				ret[1] = (String) e.getProperty("Name");
 				UUID uuid = UUID.randomUUID();
 				Date d = new Date();
