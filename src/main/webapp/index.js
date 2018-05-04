@@ -291,4 +291,10 @@ $(document).ready(function(){
 	
 	$("#cancelbutton").click(refresh);
 	
+	/* Bloque para la modificación de dadtos de usuario
+	 **/
+	$("#user").click(function(){
+		$("#modalprofile").css("display","block");
+		$("#profilemail").val(localStorage.getItem("mail"));
+	});
 });

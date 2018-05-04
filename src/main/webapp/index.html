@@ -72,14 +72,28 @@
 	
 	<div id="modalprofile" class="modaltop">
 		<div id="profilecontent" class="modaldown">
-			<form id="profileform">
-				<label for="message">Message</label>
-				<input type="text" name="mail">
-				<input type="text" name="name">
-				<input type="password" name="password">
-				<input type="password" name="repeatpassword">
-			</form>
+		<div style="display: grid; grid-template-columns: 60% 35%; grid-column-gap: 5%;">
+			<div>
+				<div style="border: 1px solid #c0c0c0; border-radius: 4px; padding: 8px;">
+					<input type="text" id="profilemail" name="profilemail" disabled>
+					<p id="usersince">Usuario desde:</p>
+				</div>
+				Nombre/Alias <input type="text" name="profilename">
+				Password <input type="password" name="profilepassword">
+				Repite Password <input type="password" name="profilerepeatpassword">
+			</div>
+			<div style="border: 1px solid #c0c0c0; border-radius: 4px; padding: 8px;">
+				<img src="" id="avatar">
+			</div>
 		</div>
+		<div style="margin-top: 10px; width: 70%; margin-left: 15%;">
+			<input type="button" id="actualizarbutton" value="Actualizar">
+			<input type="button" id="cancelarbutton" value="Cancelar">
+		</div>
+		<div style="margin-top: 10px; width: 50%; margin-left: 50%;">
+			<input type="button" id="eliminarbutton" value="Eliminar Usuario">
+		</div>
+	</div>
 	</div>
 	
 	<div id="modalnewuser" class="modaltop">
