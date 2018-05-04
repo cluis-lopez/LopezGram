@@ -1,43 +1,14 @@
-.modalevent {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-.eventcontent {
-	background-color: #f2f2f2;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    border-radius: 10px;
-    width: 80%;
-}
-
-#eventform {
-	margin:0;
-	padding:0;
-}
-
 #message {
     width: 100%;
     padding-top: 20px;
-    padding: 12px 20px;
+    padding: 8px 8px;
     margin: 8px 0;
     display: block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 125%;
-    font-family: Helvetica;
     resize: none;
+    font-size: 110%;
 }
 
 #inputpicture {
@@ -53,45 +24,40 @@
 
 #foto {
 	width: 90%;
-/* 	max-width: 500px;
-	max-height: 500px; */
-	margin-left: 5%;
-	margin-right: 5%;
+	max-width: 500px;
+	max-height: 500px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-.formbutton {
+.iconbutton {
 	padding: 12px 12px;
 	border-radius: 4px;
 }
 
 #publishbutton {
-    width: 20%;
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 8px;
     margin-top: 10px;
-	margin-left: 25%;
-	margin-right: 50%;
     border: none;
     border-radius: 4px;
-    cursor: not-allowed;
-    font-family: Arial;
+    cursor: pointer;
+    display: inline-block;
     font-size: 125%;
-    display: inline;
+	position: relative;
+	left: 0;
 }
 
 #cancelbutton {
-    width: 20%;
-    background-color: #4CAF50;
+    background-color: #e45905;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 8px;
     margin-top: 10px;
-	margin-left: 50%;
-	margin-right: 25%;
     border: none;
     border-radius: 4px;
-    cursor: not-allowed;
-    font-family: Arial;
+    cursor: pointer;
+    display: inline-block;
     font-size: 125%;
-    display: inline;
+	float: right;
 }

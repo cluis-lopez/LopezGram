@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var loc_lat;
 	var loc_long;
 	var camera_state = false;
-	var resizedImage;
+	var resizedImage = "";
 	
    // Check if WebApp LocalStorage is available
 	if (localStorage.getItem("mail") && localStorage.getItem("token")){
@@ -11,7 +11,7 @@ $(document).ready(function(){
 		tokenCheck(localStorage.getItem("mail"), localStorage.getItem("token"));
 	} else {
 		$("#username").html("User: No Valid User");
-		$(".modallogin").css("display", "block");
+		$("#modallogin").css("display", "block");
 	};
 	
 	function tokenCheck(m, t) {
@@ -24,7 +24,7 @@ $(document).ready(function(){
 					if(data.mail == m && data.token ==t){ //Token is OK
 						getEvents(m, t, 5);
 					} else { //User must login again
-						$(".modallogin").css("display", "block");
+						$("#modallogin").css("display", "block");
 					}
 				}
 			});
@@ -71,11 +71,12 @@ $(document).ready(function(){
 	// Cleanup the events area plus clean and close modals
 	
 	function refresh(){
+		$("#inputpicture").css("display", "none");
 		$("#message").val("");
 		$("#foto").attr("src","");
 		resizedImage = "";
 		camera_state = false;
-		$(".modalevent").css("display", "none");
+		$("#modalevent").css("display", "none");
 		$("#megacontainer").empty();
 		getEvents(localStorage.getItem("mail"), localStorage.getItem("token"), 5);
 	};
@@ -99,7 +100,7 @@ $(document).ready(function(){
 				if(data.mail == m && data.token != "INVALID"){ //Token is OK
 					localStorage.setItem("mail", data.mail);
 					localStorage.setItem("token", data.token);
-					localStorage.setItem("user", data.user);
+					localStorage.setItem("name", data.user);
 					location.reload();
 				} else { //User must login again
 					alert("mail: "+data.mail +" ... token"+data.token);
@@ -146,7 +147,7 @@ $(document).ready(function(){
  **/
  
 	$('#publicar').click(function(){
-		$('.modalevent').css('display', 'block');
+		$('#modalevent').css('display', 'block');
 	});
 	
 	$('#location').click(function(){
@@ -158,7 +159,7 @@ $(document).ready(function(){
 	});
 	
 	$('#camera').click(function(){
-		if (camera_state == false){
+		if (!camera_state){
 			$('#inputpicture').css('display', 'block');
 			$('#message').attr("rows","2");
 			camera_state = true;
@@ -248,39 +249,46 @@ $(document).ready(function(){
 	/* End Utility function to convert a canvas to a BLOB      */
 	
 	$("#publishbutton").click(function(){
-		m = localStorage.getItem("mail");
-		t = localStorage.getItem("token");
-		u = localStorage.getItem("user");
-		fd = new FormData();
-		fd.append("mail", m);
-		fd.append("token", t);
-		fd.append("user", u);
-		fd.append("text", $("#message").val());
-		fd.append("foto", resizedImage);
-		
-		$.ajax({
-			url: "/UploadEvent",
-			type: "POST",
-			encType: "multipart/form-data",
-			contentType: false,
-			data: fd,
-			processData: false,
-			dataType: "text",
-			success: function (data,status,xhr){
-				console.log("data: "+data);
-				if(data == "UPLOADED") {
-					alert("Publicado");
-					refresh();
-				} else { //User must login again
-					alert ("NO publicado");
-					refresh();
+		if ($("#message").val() != "" || resizedImage != ""){
+			m = localStorage.getItem("mail");
+			t = localStorage.getItem("token");
+			u = localStorage.getItem("user");
+			fd = new FormData();
+			fd.append("mail", m);
+			fd.append("token", t);
+			fd.append("user", u);
+			fd.append("text", $("#message").val());
+			fd.append("foto", resizedImage);
+
+			$.ajax({
+				url: "/UploadEvent",
+				type: "POST",
+				encType: "multipart/form-data",
+				contentType: false,
+				data: fd,
+				processData: false,
+				dataType: "text",
+				success: function (data,status,xhr){
+					console.log("data: "+data);
+					if(data == "UPLOADED") {
+						alert("Publicado");
+						refresh();
+					} else { // User must login again
+						alert ("NO publicado");
+						refresh();
+					}
+				},
+				error: function(xhr, status, message){
+					console.log(message);
 				}
-			},
-			error: function(xhr, status, message){
-				console.log(message);
-			}
-		});
+			});
+		} else {
+			console.log("Nada que publicar")
+			$("#message").attr("placeholder", "Nada que publicar");
+		}
+		
 	});
 	
 	$("#cancelbutton").click(refresh);
+	
 });
