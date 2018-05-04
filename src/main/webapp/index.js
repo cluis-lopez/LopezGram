@@ -297,4 +297,8 @@ $(document).ready(function(){
 		$("#modalprofile").css("display","block");
 		$("#profilemail").val(localStorage.getItem("mail"));
 	});
+	
+	$("#cancelarbutton").click(function(){
+		$("#modalprofile").css("display","none");
+	});
 });
