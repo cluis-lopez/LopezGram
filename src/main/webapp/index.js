@@ -55,7 +55,10 @@ $(document).ready(function(){
 		console.log(event);
 		html = '<div class="eventcontainer" id="'+ event.id +'">';
 		html = html + '<div class="autorevent">' + event.name + '</div>'
-		html = html + '<div class="pictureevent"><img src="' + event.picture + '"></div>';
+		if (event.picture != null && event.picture !="") {
+			html = html + '<div class="pictureevent"><img src="https://storage.googleapis.com/' +
+			window.location.hostname + '/EventPictures/' + event.picture + '"></div>';
+		}
 		html = html + '<div class="textevent">' + event.text + '</div>'
 		html = html + '<div class="footerevent"></div></div>';
 		$("#megacontainer").append(html);
@@ -291,7 +294,7 @@ $(document).ready(function(){
 	
 	$("#cancelbutton").click(refresh);
 	
-	/* Bloque para la modificación de dadtos de usuario
+/* Bloque para la modificación de dadtos de usuario
 	 **/
 	$("#user").click(function(){
 		$("#modalprofile").css("display","block");

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,8 +51,9 @@ public class UploadEvent extends HttpServlet {
 					System.out.println(key + ","+ value);
 					mapa.put(key, value);
 				} else {
-					filename = item.getName();
-					bucket = item.getFieldName();
+					UUID uuid = UUID.randomUUID();
+					filename = uuid.toString();
+					bucket = "EventPictures"; // item.getFieldName();
 					bytes = ByteStreams.toByteArray(stream); // De momento solo se puede subir una única foto
 					stream.close();
 				}

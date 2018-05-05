@@ -3,6 +3,8 @@ package com.clopez.lopezgram;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import com.google.appengine.api.appidentity.AppIdentityService;
+import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
@@ -22,10 +24,11 @@ public class Foto {
 	
 	public boolean upload() {
 		if (name.equals("")) return false;
-		System.out.println("Bucket: " + bucket + " nombre :" + name + " Tamaño foto: " + bytes.length);
+		String finalBucket = AppIdentityServiceFactory.getAppIdentityService().getDefaultGcsBucketName() + "/" + bucket;
 		GcsService gcsService = GcsServiceFactory.createGcsService();
 		GcsFileOptions options = new GcsFileOptions.Builder().mimeType("image/jpg").acl("public-read").build();
-		GcsFilename filename = new GcsFilename(bucket, name);
+		System.out.println("Bucket: " + bucket + " nombre: " + name + " Tamaño foto: " + bytes.length);
+		GcsFilename filename = new GcsFilename(finalBucket, name);
 		GcsOutputChannel writeChannel;
 		try {
 			writeChannel = gcsService.createOrReplace(filename, options);
